@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Normal Values</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="navbar-container"></div>
+
+    <div class="form-container">
+        <h2>Your Profile & Thresholds</h2>
+
+        <div class="input-group">
+            <label>
+                Age (Years):
+                <input type="number" placeholder="e.g., 30">
+            </label>
+            <label>
+                Weight (kg):
+                <input type="number" placeholder="e.g., 75">
+            </label>
+        </div>
+
+        <div class="input-group">
+            <label>
+                Height (cm):
+                <input type="number" placeholder="e.g., 170">
+            </label>
+            <label>
+                Gender:
+                <select>
+                    <option>Select</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Other</option>
+                </select>
+            </label>
+        </div>
+
+        <hr style="border-top: 2px dashed var(--primary); margin: 30px 0;">
+
+        <h3>Health Status Reference</h3>
+        <p>Current Normal BPM Range: 60 - 100</p>
+        <p>Current Normal SpO2: 95% +</p>
+
+        <button style="background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 10px; font-size: 1.1rem; cursor: pointer; margin-top: 15px; box-shadow: 2px 2px 0 var(--text-color);">Save Profile</button>
+    </div>
+
+    <script type="module" src="./app.js"></script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Health Log</title>
+    <link rel="stylesheet" href="styles.css"> 
+</head>
+<body>
+    <div id="navbar-container"></div>
+
+    <div style="max-width: 900px; width: 100%; margin: 20px auto;">
+        <h2 id="monthTitle" style="text-align: center;">Loading Log...</h2>
+
+        <div class="calendar-grid" id="calendar">
+            </div>
+    </div>
+
+    <script type="module" src="./app.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- 1. Get Month from URL ---
+            const urlParams = new URLSearchParams(window.location.search);
+            const monthIndex = parseInt(urlParams.get('m')) || new Date().getMonth() + 1; 
+            const year = new Date().getFullYear(); 
+
+            // --- 2. Setup Constants ---
+            const calendarDiv = document.getElementById('calendar');
+            const monthNames = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            
+            document.getElementById('monthTitle').innerText = `${monthNames[monthIndex]} ${year} Log`;
+            
+            const daysInMonth = new Date(year, monthIndex, 0).getDate();
+            const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+            // --- 3. DUMMY DATA (Simulates fetched daily stats) ---
+            const dummyDailyStats = {
+                5: { avgBpm: 120, avgSpo2: 92, status: 'issue' },      
+                10: { avgBpm: 75, avgSpo2: 99, status: 'normal' },
+                15: { avgBpm: 65, avgSpo2: 98, status: 'normal' },
+                22: { avgBpm: 110, avgSpo2: 96, status: 'issue' },    
+                28: { avgBpm: 78, avgSpo2: 97, status: 'normal' },
+            };
+
+            // --- 4. Draw Calendar Headers (Sun, Mon, Tue...) ---
+            daysOfWeek.forEach(d => {
+                calendarDiv.innerHTML += `<div class="cal-header">${d}</div>`;
+            });
+
+            // --- 5. Add Blank Slots for Correct Day Alignment ---
+            const firstDayIndex = new Date(year, monthIndex - 1, 1).getDay();
+            for(let i=0; i<firstDayIndex; i++) {
+                calendarDiv.innerHTML += `<div></div>`;
+            }
+
+            // --- 6. Draw Day Cards and Apply Styles/Data ---
+            for (let day = 1; day <= daysInMonth; day++) {
+                const stats = dummyDailyStats[day];
+                let content = `<div class="day-stats" style="color: #999;">No Data</div>`;
+                let statusClass = '';
+
+                if (stats) {
+                    content = `
+                        <div class="day-stats">
+                            HR: ${stats.avgBpm} BPM<br>
+                            O2: ${stats.avgSpo2}%
+                        </div>
+                    `;
+                    statusClass = stats.status === 'issue' ? 'status-issue' : 'status-normal';
+                }
+
+                calendarDiv.innerHTML += `
+                    <div class="cal-day ${statusClass}" id="day-${day}" onclick="alert('Viewing session details for Day ${day}...')">
+                        <span class="day-number">${day}</span>
+                        ${content}
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>
