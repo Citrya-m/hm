@@ -19,7 +19,7 @@ function loadNavbar() {
             });
     }
 }
-
+//i is big egg this is new upload
 /**
  * Adds a cute "pop" animation to elements when clicked (UI interaction).
  */
