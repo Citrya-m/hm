@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Monitor Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="navbar-container"></div>
+    
+    <h2>Real-time Monitor</h2>
+
+    <div class="dashboard-grid" style="align-items: center;">
+        
+        <div class="card" style="width: 350px; height: 350px; padding: 50px;">
+            <svg class="heart-icon pulsing" id="heartIcon" viewBox="0 0 32 29.6">
+                <path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
+                c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"/>
+            </svg>
+
+            <div class="metric-value" id="bpmDisplay">75</div>
+            <div class="unit">BPM</div>
+        </div>
+
+        <div class="card" style="width: 250px; height: 250px; border-radius: 50%; display:flex; flex-direction:column; justify-content:center; background: var(--accent-blue);">
+            <div class="metric-value" id="spo2Display">98</div>
+            <div class="unit">% SpO2</div>
+            <p style="font-size: 0.9rem; margin-top: 10px;">Status: Normal</p>
+        </div>
+
+    </div>
+
+    <script type="module" src="./app.js"></script>
+    <script>
+        // Example interaction: Click the heart to speed up the pulse/BPM
+        document.getElementById('heartIcon').addEventListener('click', function() {
+            let currentDuration = parseFloat(this.style.animationDuration || '1');
+            const newDuration = currentDuration > 0.6 ? '0.5s' : '1.5s';
+            this.style.animationDuration = newDuration;
+            document.getElementById('bpmDisplay').innerText = newDuration === '0.5s' ? '120' : '75';
+        });
+    </script>
+</body>
+</html>

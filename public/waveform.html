@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Today's Log</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div id="navbar-container"></div>
+
+    <div class="dashboard-grid">
+        <div class="card" style="width: 100%; max-width: 850px; padding: 20px;">
+            <h3>PPG Waveform (Raw Data)</h3>
+            <canvas id="ppgChart"></canvas>
+        </div>
+        <div class="card" style="width: 100%; max-width: 850px; padding: 20px;">
+            <h3>BPM and SpO2 Over Session</h3>
+            <canvas id="sessionChart"></canvas>
+        </div>
+    </div>
+
+    <script type="module" src="./app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Dummy Data for the charts
+            const labels = Array.from({ length: 15 }, (_, i) => `Time ${i}`);
+            const ppgData = [5000, 5200, 5800, 5100, 5000, 4800, 5100, 5500, 5900, 5200, 5000, 4900, 5000, 5300, 5700];
+            const bpmData = [70, 72, 68, 75, 71, 74, 73, 70, 69, 72, 75, 70, 71, 73, 74];
+            const spo2Data = [98, 97, 98, 99, 97, 98, 96, 99, 98, 97, 99, 98, 97, 98, 99];
+            
+            // PPG Waveform Chart
+            new Chart(document.getElementById('ppgChart').getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'PPG Raw Signal',
+                        data: ppgData,
+                        borderColor: 'var(--primary)',
+                        tension: 0.2,
+                        borderWidth: 2,
+                        pointRadius: 0
+                    }]
+                },
+                options: { responsive: true }
+            });
+
+            // Session Summary Chart
+            new Chart(document.getElementById('sessionChart').getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        { label: 'BPM', data: bpmData, borderColor: 'var(--primary)', tension: 0.3 },
+                        { label: 'SpO2 (%)', data: spo2Data, borderColor: 'var(--accent-blue)', tension: 0.3 }
+                    ]
+                },
+                options: { responsive: true }
+            });
+        });
+    </script>
+</body>
+</html>
