@@ -23,7 +23,7 @@
             <div class="unit">BPM</div>
         </div>
 
-        <div class="card" style="width: 250px; height: 250px; border-radius: 50%; display:flex; flex-direction:column; justify-content:center; background: var(--accent-blue);">
+        <div class="card" style="width: 250px; height: 250px; border-radius: 50%; display:flex; flex-direction:column; justify-content:center; background: #A2D9FF;">
             <div class="metric-value" id="spo2Display">98</div>
             <div class="unit">% SpO2</div>
             <p style="font-size: 0.9rem; margin-top: 10px;">Status: Normal</p>
@@ -32,14 +32,5 @@
     </div>
 
     <script type="module" src="./app.js"></script>
-    <script>
-        // Example interaction: Click the heart to speed up the pulse/BPM
-        document.getElementById('heartIcon').addEventListener('click', function() {
-            let currentDuration = parseFloat(this.style.animationDuration || '1');
-            const newDuration = currentDuration > 0.6 ? '0.5s' : '1.5s';
-            this.style.animationDuration = newDuration;
-            document.getElementById('bpmDisplay').innerText = newDuration === '0.5s' ? '120' : '75';
-        });
-    </script>
 </body>
 </html>
