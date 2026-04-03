@@ -1,0 +1,574 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;440;600&display=swap');
+
+/* --- 1. Main colors */
+:root {
+    --color-primary: #72889a;      
+    --color-secondary: #d9e3f2;     
+    --color-background: #FAF8F3;   
+    --color-text: #3C3933;         
+    --color-warning: #C25959;     
+    --color-normal: #409faa;     
+    --color-shadow: rgba(0, 0, 0, 0.08);
+    --color-border: #D1CDC6;     
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Outfit', sans-serif; 
+}
+
+body {
+    background-color: var(--color-background);
+    color: var(--color-text);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- 2. Header & Navigation --- */
+header {
+    background-color: var(--color-secondary); 
+    color: var(--color-text);
+    padding: 1.5rem 0;
+    box-shadow: 0 2px 4px var(--color-shadow);
+}
+
+header h1 {
+    text-align: center;
+    font-weight: 300; 
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+    font-size: 1.8rem;
+}
+
+.container {
+    width: 95%; 
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    flex-direction: row; 
+    justify-content: space-around; 
+    padding-top: 0.5rem; 
+    border-top: 1px solid rgba(60, 57, 51, 0.1); 
+}
+
+nav ul li {
+    width: auto; 
+    text-align: center;
+    margin: 0 0.1rem; 
+}
+
+nav ul li a {
+    color: var(--color-text);
+    text-decoration: none;
+    font-weight: 400;
+    padding: 0.4rem 0.5rem; 
+    display: block; 
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 0.75rem; 
+    white-space: nowrap; 
+}
+
+nav ul li a:hover {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+@media (min-width: 768px) {
+    header h1 {
+        font-size: 2.5rem; 
+    }
+    
+    nav ul {
+        justify-content: center;
+        padding-top: 1rem;
+    }
+    nav ul li a {
+        padding: 0.5rem 1.5rem; 
+        font-size: 1rem; 
+    }
+    .container {
+        width: 90%; 
+    }
+}
+
+/* --- 3. Main Content Layout --- */
+main {
+    padding: 3rem 0;
+    min-height: 80vh;
+    flex: 1; 
+}
+
+.card {
+    background-color: white;
+    padding: 2.5rem;
+    border-radius: 15px; 
+    box-shadow: 0 8px 16px var(--color-shadow);
+    margin-bottom: 2rem;
+}
+
+/* --- 4. Dashboard (Index) Specific Styling --- */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+@media (min-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.reading-value {
+    font-size: 4rem;
+    font-weight: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem 0;
+    color: var(--color-primary);
+    line-height: 1;
+}
+
+#connection-status, #alert-indicator {
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    transition: all 0.5s;
+}
+
+.status-ok { background-color: #D2E4CC; color: #434257; } 
+.status-warn { background-color: #F0D2D2; color: #434257; } 
+.status-loading { background-color: var(--color-secondary); color: var(--color-text); }
+
+/* --- 5. Custom Visual Effects --- */
+.reading-title {
+    font-size: 1.4rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--color-text);
+    font-weight: 400;
+}
+
+.icon-wrapper {
+    display: inline-block;
+    margin-right: 10px;
+    font-size: 1.5rem;
+}
+
+.heart-icon .icon-wrapper { color: var(--color-warning); }
+.heart-icon:hover .icon-wrapper { animation: pulse 1s infinite; }
+
+.bubble-icon .icon-wrapper { color: var(--color-primary); }
+.bubble-icon:hover .icon-wrapper { animation: float 4s infinite ease-in-out; }
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.15); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.8; }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+    50% { transform: translateY(-5px) rotate(2deg); opacity: 1; }
+}
+
+/* --- 6. Form/Reference Page Styling --- */
+.form-group input, .form-group select {
+    background-color: white;
+    border: 1px solid var(--color-primary);
+    border-radius: 8px;
+    padding: 0.75rem;
+    width: 100%;
+    color: var(--color-text); 
+}
+
+.btn-primary {
+    background-color: var(--color-primary);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    width: 100%;
+}
+
+.btn-primary:hover {
+    background-color: #5d7682; 
+    box-shadow: 0 4px 8px var(--color-shadow);
+}
+
+#references-page select, 
+#references-page input[type="text"] {
+    width: 100%;
+    max-width: none;
+    box-sizing: border-box;
+}
+
+#references-page .filter-controls > div {
+    margin-bottom: 10px; 
+}
+
+/* --- 7. History (Year/Month Selection) Styling --- */
+
+/* Keep white card background for history page */
+body:has(#year-list) .card {
+    background-color: white;
+    padding: 2.5rem;
+    box-shadow: 0 8px 16px var(--color-shadow);
+    border-radius: 15px;
+    overflow: visible;
+}
+
+body:has(#year-list) #month-selection-title {
+    margin-top: 0.5rem !important;
+    padding-top: 0 !important;
+    border-top: none !important;
+    font-size: 1.1rem;
+    text-align: center;
+    color: var(--color-text);
+}
+
+/* Container for bubbles - more space for better spread, shifted right for monster */
+.month-selector-grid {
+    position: relative;
+    width: 100%;
+    min-height: 550px;
+    padding: 40px 0 80px 0; /* Extra bottom padding for monster */
+}
+
+
+/* Bubble monster image styling - RESPONSIVE SIZE */
+.bubble-monster {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 320px;  /* Desktop: full size */
+    height: auto;
+    z-index: 1;
+}
+
+@media (max-width: 900px) {
+    .bubble-monster {
+        width: 250px;  /* Tablet: medium size */
+    }
+}
+
+@media (max-width: 600px) {
+    .bubble-monster {
+        width: 180px;  /* Mobile: small size */
+    }
+}
+
+
+/* Year selector container - compact */
+#year-list.month-selector-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    padding: 10px 0;
+    min-height: auto;
+    margin-bottom: 0.5rem;
+}
+
+.year-button {
+    background-color: var(--color-secondary); 
+    color: var(--color-text);
+    border: none;
+    padding: 8px 18px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 3px 5px var(--color-shadow);
+}
+
+.year-button:hover {
+    background-color: #b4c8de;
+    transform: translateY(-2px); 
+}
+
+.active-year {
+    background-color: var(--color-primary); 
+    color: white;
+    box-shadow: 0 5px 8px var(--color-shadow);
+}
+
+/* --- FLOATING BUBBLE STYLING --- */
+
+
+.bubble-wrapper {
+    position: absolute;
+    /* Animation removed - JavaScript physics will handle movement */
+    transition: none; /* Remove transition for smooth physics */
+}
+
+.month-circle {
+    text-decoration: none;
+    color: white; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 110px; 
+    height: 110px;
+    border-radius: 50%; 
+    
+    /* Beautiful gradient using the new color scheme */
+    background: linear-gradient(135deg, 
+        #aed5e6 0%,
+        #afcae0 30%,
+        #abebf2 60%,
+        #8bd4f3 100%);
+    
+    box-shadow: 
+        0 10px 30px rgba(64, 159, 170, 0.4),
+        0 5px 15px rgba(114, 136, 154, 0.3),
+        inset -8px -8px 20px rgba(0, 0, 0, 0.12),
+        inset 8px 8px 20px rgba(255, 255, 255, 0.5);
+    
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    font-weight: 600;
+    font-size: 1rem; 
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Large shine effect */
+.month-circle::before {
+    content: '';
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    width: 50%;
+    height: 50%;
+    background: radial-gradient(circle at 30% 30%, 
+        rgba(255, 255, 255, 0.8) 0%, 
+        rgba(255, 255, 255, 0.3) 40%, 
+        transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+/* Small reflection */
+.month-circle::after {
+    content: '';
+    position: absolute;
+    bottom: 20%;
+    right: 20%;
+    width: 25%;
+    height: 25%;
+    background: radial-gradient(circle, 
+        rgba(255, 255, 255, 0.6) 0%, 
+        transparent 60%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.month-circle:hover {
+    transform: scale(1.15);
+    box-shadow: 
+        0 15px 40px rgba(64, 159, 170, 0.6),
+        0 8px 20px rgba(114, 136, 154, 0.4),
+        inset -8px -8px 20px rgba(0, 0, 0, 0.08),
+        inset 8px 8px 25px rgba(255, 255, 255, 0.6);
+    background: linear-gradient(135deg, 
+        #bfe0f0 0%,
+        #c0d9ed 30%,
+        #bef5fa 60%,
+        #9fe0f9 100%);
+}
+
+.bubble-popping {
+    animation: bubblePop 0.5s ease-out forwards !important;
+}
+
+@keyframes bubblePop {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    30% {
+        transform: scale(1.4);
+        opacity: 0.9;
+    }
+    60% {
+        transform: scale(1.5) rotate(10deg);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(0) rotate(20deg);
+        opacity: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .month-selector-grid {
+        min-height: 500px;
+    }
+    
+    .month-circle {
+        width: 90px !important;
+        height: 90px !important;
+        font-size: 0.85rem;
+    }
+}
+
+/* --- 8. Calendar (Day) Styling --- */
+
+.calendar-scroll-wrapper {
+    width: 100%; 
+    overflow-x: auto; 
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(80px, 1fr)); 
+    gap: 2px;
+    border: 1px solid var(--color-secondary);
+    border-radius: 8px;
+    overflow: hidden;
+    min-width: 700px; 
+}
+
+@media (min-width: 768px) {
+    .calendar-grid {
+        width: 100%;
+        min-width: initial; 
+    }
+    .calendar-scroll-wrapper {
+        overflow-x: hidden; 
+    }
+}
+
+.day-header {
+    background-color: var(--color-secondary);
+    text-align: center;
+    padding: 0.75rem 0.5rem;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.day-cell {
+    border: 1px solid var(--color-secondary);
+    padding: 0.75rem;
+    height: 100px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    font-size: 1rem;
+    background-color: white;
+}
+
+.day-cell.inactive {
+    background-color: #ecf4f8;
+    visibility: hidden; 
+}
+
+.day-number {
+    font-weight: 600;
+    color: var(--color-text);
+    align-self: flex-end;
+}
+
+.day-cell.normal { background-color: #EBF2E5; border: 1px solid var(--color-normal); } 
+.day-cell.warning { background-color: #F8E5E5; border: 1px solid var(--color-warning); } 
+.day-cell.no-data { background-color: var(--color-background); border: 1px dashed var(--color-secondary); }
+
+.avg-text {
+    font-size: 0.75rem;
+    line-height: 1.2;
+    color: var(--color-text);
+    opacity: 0.8;
+}
+
+/* --- 9. Footer --- */
+footer {
+    border-top: 1px solid var(--color-secondary);
+    font-size: 0.85rem;
+    color: rgba(60, 57, 51, 0.7); 
+    padding: 1.5rem 0;
+    text-align: center;
+}
+
+/* --- 10. Waveform & Trend Tab System --- */
+
+.tab-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1rem;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 0.8rem;
+    border: none;
+    background-color: var(--color-secondary);
+    color: var(--color-text);
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.tab-btn.active {
+    background-color: var(--color-primary);
+    color: white;
+    box-shadow: 0 4px 10px var(--color-shadow);
+}
+
+.tab-btn:hover:not(.active) {
+    background-color: #c4d1d8;
+}
+
+/* --- 11. Chart Containers --- */
+
+.chart-wrapper {
+    background-color: #ffffff;
+    border: 1px solid var(--color-secondary);
+    border-radius: 12px;
+    padding: 15px;
+    position: relative;
+    width: 100%;
+}
+
+#trend-status {
+    font-style: italic;
+    font-weight: 300;
+    opacity: 0.8;
+}
+
+@media (max-width: 400px) {
+    .tab-container {
+        flex-direction: column;
+    }
+}

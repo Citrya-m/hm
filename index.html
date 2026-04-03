@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OxyBit | Dashboard</title>
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;440;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css"> 
+    
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>OxyBit Monitor</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Dashboard</a></li>
+                    <li><a href="waveform.html">Waveform</a></li>
+                    <li><a href="history.html">History</a></li>
+                    <li><a href="references.html">References</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="card">
+                <h2>System Status</h2>
+                <p style="color: var(--color-text); font-weight: 300; font-size: 0.9rem;">
+                    Last Updated: <span id="last-updated">--</span>
+                </p>
+                <div class="dashboard-grid" style="margin-top: 1.5rem;">
+                    <div>
+                        <div id="connection-status" class="status-loading">Establishing Connection...</div>
+                    </div>
+                    <div>
+                        <div id="alert-indicator" class="status-loading">Checking Readings...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Health Readings Grid -->
+            <div class="dashboard-grid">
+                <!-- Heart Rate Card -->
+                <div class="card">
+                    <h3 class="reading-title heart-icon">
+                        <span class="icon-wrapper">❤</span> Heart Rate (BPM)
+                    </h3>
+                    <div class="reading-value" id="bpm-value">--</div> 
+                    <p class="status-message" id="bpm-status" style="text-align: center;"></p>
+                </div>
+                
+                <!-- SpO2 Card -->
+                <div class="card">
+                    <h3 class="reading-title bubble-icon">
+                        <span class="icon-wrapper">🫧</span> SpO₂ (%)
+                    </h3>
+                    <div class="reading-value" id="spo2-value">--</div>
+                    <p class="status-message" id="spo2-status" style="text-align: center;"></p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 OxyBit HealthSense. Data secured by Firebase.</p>
+        </div>
+    </footer>
+
+    <!-- Load Firebase config first, then app logic -->
+    <script src="js/firebase-config.js"></script>
+    <script src="js/index.js"></script>
+</body>
+</html>

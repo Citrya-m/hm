@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OxyBit | Waveform & Trends</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;440;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css"> 
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>OxyBit Monitor</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Dashboard</a></li>
+                    <li><a href="waveform.html">Waveform</a></li>
+                    <li><a href="history.html">History</a></li>
+                    <li><a href="references.html">References</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="card">
+                <div class="tab-container">
+                    <button class="tab-btn active" id="btn-realtime" onclick="switchTab('realtime')">Real-time PPG</button>
+                    <button class="tab-btn" id="btn-daily" onclick="switchTab('daily')">Most recent Measurements</button>
+                </div>
+
+                <hr style="margin-bottom: 1.5rem; opacity: 0.1;">
+
+                <div id="realtime-view">
+                    <h2 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Raw Sensor Output</h2>
+                    <p style="color: var(--color-primary); margin-bottom: 1.5rem; font-size: 0.9rem;">Live stream from the latest data node.</p>
+                    <div class="chart-wrapper" style="height: 400px; position: relative;">
+                        <canvas id="waveformChart"></canvas>
+                    </div>
+                </div>
+
+                <div id="daily-view" style="display: none;">
+                    <h2 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Today's Health Log</h2>
+                    <p id="trend-status" style="color: var(--color-primary); margin-bottom: 1.5rem; font-size: 0.9rem;">Fetching today's logs...</p>
+                    <div class="chart-wrapper" style="height: 400px; position: relative;">
+                        <canvas id="dailyTrendChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 OxyBit HealthSense.</p>
+        </div>
+    </footer>
+
+    <script src="js/firebase-config.js"></script> 
+    <script src="js/waveform.js"></script> 
+</body>
+</html>

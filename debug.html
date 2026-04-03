@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OxyBit Debug Monitor</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background: #1a1a1a;
+            color: #00ff00;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #00ff00;
+            border-bottom: 2px solid #00ff00;
+            padding-bottom: 10px;
+        }
+        .status-box {
+            background: #000;
+            border: 2px solid #00ff00;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .log-entry {
+            margin: 5px 0;
+            padding: 5px;
+            background: #0a0a0a;
+            border-left: 3px solid #00ff00;
+        }
+        .error {
+            border-left-color: #ff0000;
+            color: #ff0000;
+        }
+        .warning {
+            border-left-color: #ffff00;
+            color: #ffff00;
+        }
+        .raw-data {
+            background: #000;
+            border: 1px solid #333;
+            padding: 10px;
+            margin: 10px 0;
+            overflow-x: auto;
+            font-size: 12px;
+        }
+        .metric {
+            display: inline-block;
+            margin: 10px 20px 10px 0;
+        }
+        .metric-label {
+            color: #888;
+            font-size: 12px;
+        }
+        .metric-value {
+            color: #00ff00;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        button {
+            background: #00ff00;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 3px;
+        }
+        button:hover {
+            background: #00cc00;
+        }
+        .timestamp {
+            color: #666;
+            font-size: 11px;
+        }
+    </style>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 OxyBit Debug Monitor</h1>
+        
+        <div class="status-box">
+            <h3>Connection Status</h3>
+            <div class="metric">
+                <div class="metric-label">Firebase Status</div>
+                <div class="metric-value" id="firebase-status">CHECKING...</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">Last Update</div>
+                <div class="metric-value" id="last-update">--</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">Update Count</div>
+                <div class="metric-value" id="update-count">0</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">Time Since Last</div>
+                <div class="metric-value" id="time-since">--</div>
+            </div>
+        </div>
+
+        <div class="status-box">
+            <h3>Current Data</h3>
+            <div class="metric">
+                <div class="metric-label">BPM</div>
+                <div class="metric-value" id="debug-bpm">--</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">SpO2</div>
+                <div class="metric-value" id="debug-spo2">--</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">Timestamp</div>
+                <div class="metric-value" id="debug-timestamp">--</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">Connected Flag</div>
+                <div class="metric-value" id="debug-connected">--</div>
+            </div>
+        </div>
+
+        <div class="status-box">
+            <h3>Raw Firebase Data</h3>
+            <pre class="raw-data" id="raw-data">Waiting for data...</pre>
+        </div>
+
+        <div class="status-box">
+            <h3>Activity Log</h3>
+            <button onclick="clearLog()">Clear Log</button>
+            <button onclick="testConnection()">Test Connection</button>
+            <button onclick="location.reload()">Refresh Page</button>
+            <div id="log-container"></div>
+        </div>
+    </div>
+
+    <script>
+        // Firebase config
+        const firebaseConfig = {
+            apiKey: "8MxQunxD6GDKtKVBRRkdtQvsZvr7eim414ggEFOP",
+            authDomain: "oxybit-8609b.firebaseapp.com",
+            databaseURL: "https://oxybit-8609b-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "oxybit-8609b",
+            storageBucket: "oxybit-8609b.appspot.com",
+            messagingSenderId: "931238910410",
+            appId: "1:931238910410:web:486a665287f311c1d04495"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        const healthDataRef = database.ref('HealthData');
+
+        let updateCount = 0;
+        let lastTimestamp = 0;
+        let updateInterval = null;
+
+        function log(message, type = 'info') {
+            const logContainer = document.getElementById('log-container');
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            const timestamp = new Date().toLocaleTimeString();
+            entry.innerHTML = `<span class="timestamp">[${timestamp}]</span> ${message}`;
+            logContainer.insertBefore(entry, logContainer.firstChild);
+            
+            // Keep only last 50 entries
+            while (logContainer.children.length > 50) {
+                logContainer.removeChild(logContainer.lastChild);
+            }
+        }
+
+        function clearLog() {
+            document.getElementById('log-container').innerHTML = '';
+            log('Log cleared', 'info');
+        }
+
+        function testConnection() {
+            log('Testing Firebase connection...', 'info');
+            healthDataRef.once('value')
+                .then((snapshot) => {
+                    log('✓ Firebase connection test successful', 'info');
+                    log(`Data exists: ${snapshot.exists()}`, 'info');
+                })
+                .catch((error) => {
+                    log(`✗ Firebase connection test failed: ${error.message}`, 'error');
+                });
+        }
+
+        function updateTimeSince() {
+            if (lastTimestamp > 0) {
+                const now = Date.now();
+                const diff = Math.floor((now - lastTimestamp) / 1000);
+                document.getElementById('time-since').textContent = `${diff}s ago`;
+                
+                if (diff > 4) {
+                    document.getElementById('firebase-status').textContent = 'DISCONNECTED';
+                    document.getElementById('firebase-status').style.color = '#ff0000';
+                }
+            }
+        }
+
+        // Update time since every second
+        setInterval(updateTimeSince, 1000);
+
+        // Listen for changes
+        healthDataRef.on('value', (snapshot) => {
+            const data = snapshot.val();
+            lastTimestamp = Date.now();
+            updateCount++;
+            
+            document.getElementById('firebase-status').textContent = 'CONNECTED';
+            document.getElementById('firebase-status').style.color = '#00ff00';
+            document.getElementById('last-update').textContent = new Date().toLocaleTimeString();
+            document.getElementById('update-count').textContent = updateCount;
+            
+            if (data) {
+                document.getElementById('debug-bpm').textContent = data.bpm !== undefined ? data.bpm : 'N/A';
+                document.getElementById('debug-spo2').textContent = data.spo2 !== undefined ? data.spo2 : 'N/A';
+                document.getElementById('debug-timestamp').textContent = data.timestamp !== undefined ? data.timestamp : 'N/A';
+                document.getElementById('debug-connected').textContent = data.connected !== undefined ? data.connected : 'N/A';
+                
+                document.getElementById('raw-data').textContent = JSON.stringify(data, null, 2);
+                
+                const bpm = parseFloat(data.bpm) || 0;
+                const spo2 = parseFloat(data.spo2) || 0;
+                
+                if (bpm === 0 && spo2 === 0) {
+                    log('⚠ Received zero values (no finger detected)', 'warning');
+                } else if (bpm > 0 && spo2 > 0) {
+                    log(`✓ Valid data received: BPM=${bpm} SpO2=${spo2}`, 'info');
+                } else {
+                    log('⚠ Partial data received', 'warning');
+                }
+            } else {
+                log('✗ Received null data', 'error');
+                document.getElementById('raw-data').textContent = 'NULL DATA';
+            }
+        }, (error) => {
+            log(`✗ Firebase error: ${error.code} - ${error.message}`, 'error');
+            document.getElementById('firebase-status').textContent = 'ERROR';
+            document.getElementById('firebase-status').style.color = '#ff0000';
+        });
+
+        // Initial log
+        log('🔧 Debug monitor started', 'info');
+        log('Waiting for Firebase data...', 'info');
+    </script>
+</body>
+</html>

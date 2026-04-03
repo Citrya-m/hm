@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OxyBit | Daily Averages</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;440;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css"> 
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>OxyBit Monitor</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Dashboard</a></li>
+                    <li><a href="waveform.html">Waveform</a></li>
+                    <li><a href="history.html">History</a></li>
+                    <li><a href="references.html">References</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="card">
+                <h2 id="calendar-title">Loading Calendar...</h2>
+                <p style="margin-bottom: 1rem; font-size: 0.9rem;">
+                    Color Key: <span style="color: var(--color-normal);">Normal (Green)</span> | <span style="color: var(--color-warning);">Warning (Red)</span> | Neutral (No Data)
+                </p>
+                
+                <div class="calendar-scroll-wrapper">
+
+                    <div class="calendar-grid" id="calendar-view">
+                        
+                        <div class="day-header">Sun</div>
+                        <div class="day-header">Mon</div>
+                        <div class="day-header">Tue</div>
+                        <div class="day-header">Wed</div>
+                        <div class="day-header">Thu</div>
+                        <div class="day-header">Fri</div>
+                        <div class="day-header">Sat</div>
+                        
+                        <div id="calendar-days-container" style="display: contents;">
+                            </div>
+
+                    </div>
+                    </div>
+                </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 OxyBit HealthSense. Data secured by Firebase.</p>
+        </div>
+    </footer>
+
+    <script src="js/firebase-config.js"></script> 
+    <script src="js/calendar.js"></script> 
+</body>
+</html>

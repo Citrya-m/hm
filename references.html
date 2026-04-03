@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OxyBit | Normal Values</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;440;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css"> <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>OxyBit Monitor</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Dashboard</a></li>
+                    <li><a href="waveform.html">Waveform</a></li>
+                    <li><a href="history.html">History</a></li>
+                    <li><a href="references.html">References</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="card">
+                <h2>Personal Reference Calculator</h2>
+                <p style="margin-bottom: 2rem;">Enter your profile details to estimate personalized resting and target heart rate ranges.</p>
+                
+                <form id="referenceForm">
+                    <div class="dashboard-grid">
+                        <div class="form-group"><label for="age">Age (Years):</label><input type="number" id="age" value="30" min="1" required></div>
+                        <div class="form-group"><label for="gender">Gender:</label><select id="gender"><option value="female">Female</option><option value="male">Male</option><option value="other">Other</option></select></div>
+                        <div class="form-group"><label for="activity">Cardio Intensity Level:</label><select id="activity"><option value="sedentary">Sedentary / Light</option><option value="moderate">Moderate Exercise (50-70% Max HR)</option><option value="vigorous">Vigorous Exercise (70-85% Max HR)</option><option value="athlete">Trained Athlete</option></select></div>
+                        <div class="form-group"><label for="weight">Weight (kg):</label><input type="number" id="weight" placeholder="e.g., 70"></div>
+                    </div>
+                    <button type="submit" class="btn-primary" style="margin-top: 1.5rem;">Calculate Normal Values</button>
+                    <button type="button" class="btn-primary" id="save-profile-btn" style="margin-top: 0.5rem; background-color: var(--color-secondary); color: var(--color-text);">Save User Profile (Placeholder)</button>
+                </form>
+            </div>
+            
+            <div class="card" id="results-card" style="display: none;">
+                <h2>Calculated Ranges</h2>
+                <div class="dashboard-grid">
+                    <div>
+                        <h3>Resting Heart Rate (BPM)</h3>
+                        <div class="reading-value" id="normal-resting-hr">--</div>
+                    </div>
+                    <div>
+                        <h3>Target Heart Rate (BPM)</h3>
+                        <div class="reading-value" id="normal-target-hr">--</div>
+                    </div>
+                </div>
+                <h3 style="margin-top: 1rem;">SpO₂ (Oxygen Saturation)</h3>
+                <div class="reading-value" id="normal-spo2" style="font-size: 2.5rem; color: var(--color-normal);">95% - 100% (Healthy)</div>
+                <p style="margin-top: 1rem; font-style: italic;">Note: This calculator provides general estimates. Consult a healthcare professional for personalized targets.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 OxyBit HealthSense. Data secured by Firebase.</p>
+        </div>
+    </footer>
+
+    <script src="js/firebase-config.js"></script> <script src="js/references.js"></script> </body>
+</html>
